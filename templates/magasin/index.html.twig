@@ -1,0 +1,7 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% for magasin in magasins %}
+        <li>{{ magasin.nom }}</li>
+    {% endfor %}
+{% endblock %}
