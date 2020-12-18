@@ -32,7 +32,7 @@ class MagasinController extends AbstractController
     public function detailMagasin(Magasin $magasin){
         $em = $this->getDoctrine()->getManager();
 
-        return $this->render('magasin/index.html.twig', [
+        return $this->render('magasin/detail.html.twig', [
             'magasin' => $magasin
         ]);
     }
@@ -51,6 +51,7 @@ class MagasinController extends AbstractController
             $magasin->setNom($addFrom['nom']->getData());
             $em->persist($magasin);
             $em->flush();
+            return $this->redirectToRoute("magasin_list");
         }
         return $this->render('magasin/add.html.twig', [
             'form' => $addFrom->createView(),
