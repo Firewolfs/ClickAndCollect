@@ -30,10 +30,16 @@ class Magasin
     private $stocks;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Commande", mappedBy="magasin")
+     */
+    private $commandes;
+
+    /**
      * Magasin constructor.
      */
     public function __construct() {
         $this->stocks = new ArrayCollection();
+        $this->commandes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -67,6 +73,22 @@ class Magasin
     public function setStocks(ArrayCollection $stocks): void
     {
         $this->stocks = $stocks;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getCommandes(): ArrayCollection
+    {
+        return $this->commandes;
+    }
+
+    /**
+     * @param ArrayCollection $commandes
+     */
+    public function setCommandes(ArrayCollection $commandes): void
+    {
+        $this->commandes = $commandes;
     }
 
 }

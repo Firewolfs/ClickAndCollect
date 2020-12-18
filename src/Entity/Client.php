@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ClientRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -17,6 +18,36 @@ class Client implements UserInterface
      * @ORM\Column(type="integer")
      */
     private $id;
+
+    /**
+     * @@ORM\Column(type="string", nullable=false, length=255)
+     */
+    private $nom;
+
+    /**
+     * @@ORM\Column(type="string", nullable=false, length=255)
+     */
+    private $prenom;
+
+    /**
+     * @@ORM\Column(type="string", nullable=false, length=255)
+     */
+    private $adresse;
+
+    /**
+     * @@ORM\Column(type="string", nullable=false, length=5)
+     */
+    private $code_postal;
+
+    /**
+     * @@ORM\Column(type="string", nullable=false, length=255)
+     */
+    private $ville;
+
+    /**
+     * @@ORM\Column(type="string", nullable=false, length=10)
+     */
+    private $telephone;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
@@ -34,6 +65,18 @@ class Client implements UserInterface
      */
     private $password;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Commande", mappedBy="client")
+     */
+    private $commandes;
+
+    /**
+     * Client constructor.
+     */
+    public function __construct() {
+        $this->commandes = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -49,6 +92,118 @@ class Client implements UserInterface
         $this->email = $email;
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNom()
+    {
+        return $this->nom;
+    }
+
+    /**
+     * @param mixed $nom
+     */
+    public function setNom($nom): void
+    {
+        $this->nom = $nom;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPrenom()
+    {
+        return $this->prenom;
+    }
+
+    /**
+     * @param mixed $prenom
+     */
+    public function setPrenom($prenom): void
+    {
+        $this->prenom = $prenom;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAdresse()
+    {
+        return $this->adresse;
+    }
+
+    /**
+     * @param mixed $adresse
+     */
+    public function setAdresse($adresse): void
+    {
+        $this->adresse = $adresse;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodePostal()
+    {
+        return $this->code_postal;
+    }
+
+    /**
+     * @param mixed $code_postal
+     */
+    public function setCodePostal($code_postal): void
+    {
+        $this->code_postal = $code_postal;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getVille()
+    {
+        return $this->ville;
+    }
+
+    /**
+     * @param mixed $ville
+     */
+    public function setVille($ville): void
+    {
+        $this->ville = $ville;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTelephone()
+    {
+        return $this->telephone;
+    }
+
+    /**
+     * @param mixed $telephone
+     */
+    public function setTelephone($telephone): void
+    {
+        $this->telephone = $telephone;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getCommandes(): ArrayCollection
+    {
+        return $this->commandes;
+    }
+
+    /**
+     * @param ArrayCollection $commandes
+     */
+    public function setCommandes(ArrayCollection $commandes): void
+    {
+        $this->commandes = $commandes;
     }
 
     /**
