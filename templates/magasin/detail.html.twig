@@ -2,4 +2,20 @@
 
 {% block body %}
     <h1>magasin: {{ magasin.nom }}</h1>
+    <div class="row">
+    {% for stock in magasin.stocks %}
+        <div class="card col-2 mr-5 mt-5" style="width: 18rem;">
+            <img class="card-img-top" src="{{ '../../image/'~ stock.produit.label ~'.jpg' }}" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">{{ stock.produit.label }}</h5>
+                <p class="card-text">Quantité restante : {{ stock.quantity }}</p>
+                {% if stock.quantity < 1 %}
+                    <a href="#" class="btn btn-danger">Rupture de stock</a>
+                {% else %}
+                    <a href="#" class="btn btn-primary">Commander</a>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+    </div>
 {% endblock %}
