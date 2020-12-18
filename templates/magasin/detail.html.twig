@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>magasin: {{ magasin.nom }}</h1>
+    <h1 style="text-align: center">{{ magasin.nom }}</h1>
     <div class="row">
     {% for stock in magasin.stocks %}
         <div class="card col-2 mr-5 mt-5" style="width: 18rem;">
