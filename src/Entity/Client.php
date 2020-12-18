@@ -5,10 +5,12 @@ namespace App\Entity;
 use App\Repository\ClientRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=ClientRepository::class)
+ * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
  */
 class Client implements UserInterface
 {
@@ -18,36 +20,6 @@ class Client implements UserInterface
      * @ORM\Column(type="integer")
      */
     private $id;
-
-    /**
-     * @@ORM\Column(type="string", nullable=false, length=255)
-     */
-    private $nom;
-
-    /**
-     * @@ORM\Column(type="string", nullable=false, length=255)
-     */
-    private $prenom;
-
-    /**
-     * @@ORM\Column(type="string", nullable=false, length=255)
-     */
-    private $adresse;
-
-    /**
-     * @@ORM\Column(type="string", nullable=false, length=5)
-     */
-    private $code_postal;
-
-    /**
-     * @@ORM\Column(type="string", nullable=false, length=255)
-     */
-    private $ville;
-
-    /**
-     * @@ORM\Column(type="string", nullable=false, length=10)
-     */
-    private $telephone;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
@@ -71,6 +43,36 @@ class Client implements UserInterface
     private $commandes;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $nom;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $prenom;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $adresse;
+
+    /**
+     * @ORM\Column(type="string", length=5)
+     */
+    private $code_postal;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $ville;
+
+    /**
+     * @ORM\Column(type="string", length=10)
+     */
+    private $telephone;
+
+    /**
      * Client constructor.
      */
     public function __construct() {
@@ -92,102 +94,6 @@ class Client implements UserInterface
         $this->email = $email;
 
         return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getNom()
-    {
-        return $this->nom;
-    }
-
-    /**
-     * @param mixed $nom
-     */
-    public function setNom($nom): void
-    {
-        $this->nom = $nom;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getPrenom()
-    {
-        return $this->prenom;
-    }
-
-    /**
-     * @param mixed $prenom
-     */
-    public function setPrenom($prenom): void
-    {
-        $this->prenom = $prenom;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getAdresse()
-    {
-        return $this->adresse;
-    }
-
-    /**
-     * @param mixed $adresse
-     */
-    public function setAdresse($adresse): void
-    {
-        $this->adresse = $adresse;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCodePostal()
-    {
-        return $this->code_postal;
-    }
-
-    /**
-     * @param mixed $code_postal
-     */
-    public function setCodePostal($code_postal): void
-    {
-        $this->code_postal = $code_postal;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getVille()
-    {
-        return $this->ville;
-    }
-
-    /**
-     * @param mixed $ville
-     */
-    public function setVille($ville): void
-    {
-        $this->ville = $ville;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getTelephone()
-    {
-        return $this->telephone;
-    }
-
-    /**
-     * @param mixed $telephone
-     */
-    public function setTelephone($telephone): void
-    {
-        $this->telephone = $telephone;
     }
 
     /**
@@ -265,5 +171,77 @@ class Client implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function getNom(): ?string
+    {
+        return $this->nom;
+    }
+
+    public function setNom(string $nom): self
+    {
+        $this->nom = $nom;
+
+        return $this;
+    }
+
+    public function getPrenom(): ?string
+    {
+        return $this->prenom;
+    }
+
+    public function setPrenom(string $prenom): self
+    {
+        $this->prenom = $prenom;
+
+        return $this;
+    }
+
+    public function getAdresse(): ?string
+    {
+        return $this->adresse;
+    }
+
+    public function setAdresse(string $adresse): self
+    {
+        $this->adresse = $adresse;
+
+        return $this;
+    }
+
+    public function getCodePostal(): ?string
+    {
+        return $this->code_postal;
+    }
+
+    public function setCodePostal(string $code_postal): self
+    {
+        $this->code_postal = $code_postal;
+
+        return $this;
+    }
+
+    public function getVille(): ?string
+    {
+        return $this->ville;
+    }
+
+    public function setVille(string $ville): self
+    {
+        $this->ville = $ville;
+
+        return $this;
+    }
+
+    public function getTelephone(): ?string
+    {
+        return $this->telephone;
+    }
+
+    public function setTelephone(string $telephone): self
+    {
+        $this->telephone = $telephone;
+
+        return $this;
     }
 }
