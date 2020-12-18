@@ -1,8 +1,29 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <a href="{{ path('magasin_add') }}"><button class="btn btn-primary">Ajouter un magasin</button></a>
+    <h1 class="text-center">Liste des magasins</h1>
+
+    <div class="container">
     {% for magasin in magasins %}
-        <li><a href="{{ path('magasin_detail', {id: magasin.id}) }}">{{ magasin.nom }}</a><a href="{{ path('magasin_delete', {id: magasin.id}) }}"><button class="btn btn-danger">X</button></a></li>
+        <div class="card mt-5">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <img src="{{ '../../image/boutique.jpg' }}" width="400" alt="Card image cap">
+                    </div>
+                    <div class="col">
+                        <h5 class="card-title text-center">{{ magasin.nom }}</h5>
+                    </div>
+                    <div class="col">
+                        <p class="card-text text-center">Description du magasin blablabla blablabla</p>
+                    </div>
+                    <div class="col">
+                        <a href="{{ path('magasin_detail', {id: magasin.id}) }}" class="btn btn-primary text-center">Voir le magasin</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     {% endfor %}
+    </div>
+    <a href="{{ path('magasin_add') }}"><button class="btn btn-primary">Ajouter un magasin</button></a>
 {% endblock %}
