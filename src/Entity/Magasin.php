@@ -25,6 +25,7 @@ class Magasin
     private $nom;
 
     /**
+     * @var Stocks[]|ArrayCollection
      * @ORM\OneToMany(targetEntity="App\Entity\Stocks", mappedBy="magasin")
      */
     private $stocks;
