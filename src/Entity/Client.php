@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ClientRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -63,6 +64,18 @@ class Client implements UserInterface
      * @ORM\Column(type="string")
      */
     private $password;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Commande", mappedBy="client")
+     */
+    private $commandes;
+
+    /**
+     * Client constructor.
+     */
+    public function __construct() {
+        $this->commandes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -175,6 +188,22 @@ class Client implements UserInterface
     public function setTelephone($telephone): void
     {
         $this->telephone = $telephone;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getCommandes(): ArrayCollection
+    {
+        return $this->commandes;
+    }
+
+    /**
+     * @param ArrayCollection $commandes
+     */
+    public function setCommandes(ArrayCollection $commandes): void
+    {
+        $this->commandes = $commandes;
     }
 
     /**

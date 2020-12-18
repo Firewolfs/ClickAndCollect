@@ -35,6 +35,11 @@ class Produit
     private $stocks;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\LigneCommande", mappedBy="produit")
+     */
+    private $command_lignes;
+
+    /**
      * Produit constructor.
      */
     public function __construct() {
@@ -92,6 +97,22 @@ class Produit
     public function setStocks(ArrayCollection $stocks): void
     {
         $this->stocks = $stocks;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCommandLignes()
+    {
+        return $this->command_lignes;
+    }
+
+    /**
+     * @param mixed $command_lignes
+     */
+    public function setCommandLignes($command_lignes): void
+    {
+        $this->command_lignes = $command_lignes;
     }
 
 }
