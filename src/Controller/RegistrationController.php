@@ -6,6 +6,7 @@ use App\Entity\Client;
 use App\Form\RegistrationFormType;
 use App\Security\AppClientAuthenticator;
 use Swift_Mailer;
+use Swift_Message;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -47,6 +48,13 @@ class RegistrationController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
             // do anything else you need here, like send an email
+            $message = new Swift_Message('Création de compte');
+            $message->setFrom('dev.lpmetinet@gmail.com')
+                ->setTo('christopher.leguillier1@gmail.com')
+                ->setBody($this->renderView('registration/register-email.html.twig'), 'text/html');
+
+            $mailer->send($message);
+
 
             return $guardHandler->authenticateUserAndHandleSuccess(
                 $user,
