@@ -35,11 +35,17 @@ class Magasin
     private $commandes;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Vendeur", mappedBy="magasin")
+     */
+    private $vendeurs;
+
+    /**
      * Magasin constructor.
      */
     public function __construct() {
         $this->stocks = new ArrayCollection();
         $this->commandes = new ArrayCollection();
+        $this->vendeurs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -89,6 +95,22 @@ class Magasin
     public function setCommandes(ArrayCollection $commandes): void
     {
         $this->commandes = $commandes;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getVendeurs()
+    {
+        return $this->vendeurs;
+    }
+
+    /**
+     * @param mixed $vendeurs
+     */
+    public function setVendeurs($vendeurs): void
+    {
+        $this->vendeurs = $vendeurs;
     }
 
 }
