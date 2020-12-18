@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    <a href="{{ path('tempo_remove') }}">Clear session</a>
     <h1>magasin: {{ magasin.nom }}</h1>
     <div class="row">
     {% for stock in magasin.stocks %}
@@ -10,9 +11,9 @@
                 <h5 class="card-title">{{ stock.produit.label }}</h5>
                 <p class="card-text">Quantité restante : {{ stock.quantity }}</p>
                 {% if stock.quantity < 1 %}
-                    <a href="#" class="btn btn-danger">Rupture de stock</a>
+                    <a href="#" class="btn btn-danger disabled" aria-disabled="true">Rupture de stock</a>
                 {% else %}
-                    <a href="#" class="btn btn-primary">Commander</a>
+                    <a href="{{ path('commande_add_product', {id: stock.produit.id}) }}" class="btn btn-primary">Commander</a>
                 {% endif %}
             </div>
         </div>
