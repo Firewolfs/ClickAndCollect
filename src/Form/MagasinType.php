@@ -14,7 +14,8 @@ class MagasinType extends AbstractType
     {
         $builder
             ->add('nom', TextType::class, [
-
+                'attr' => ['class' => 'form-control'],
+                'label' => 'Nom'
             ])
         ;
     }

@@ -18,12 +18,14 @@ class StockType extends AbstractType
     {
         $builder
             ->add('quantity', IntegerType::class, [
-
+                'attr' => ['class' => 'form-control'],
+                'label' => 'Quantité'
             ])
         ;
         if($options['addStock'] === true){
             $builder
                 ->add('produit', EntityType::class,[
+                    'attr' => ['class' => 'form-control'],
                     'class'  => Produit::class,
                     'choice_label' => 'label',
                     'expanded' => false,
