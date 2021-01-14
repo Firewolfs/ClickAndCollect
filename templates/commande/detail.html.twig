@@ -18,6 +18,10 @@
                                 <p class="card-text">Facturation :<br>
                                     <span style="font-size: 14px; margin-left: 20px;">{{ client.nom ~ ' ' ~ client.prenom }}</span>
                                 </p>
+                                <p class="card-text">Choisir créneau de retrait :<br>
+                                    {{ form_start(formCreneau) }}
+                                    {{ form_end(formCreneau) }}
+                                </p>
 
                             </div>
                         </div>

@@ -45,7 +45,7 @@ class Magasin
      *
      * @ORM\OneToMany(targetEntity="Creneau", mappedBy="magasin")
      */
-    private $creneaus;
+    private $creneaux;
 
     /**
      * Magasin constructor.
@@ -54,7 +54,7 @@ class Magasin
         $this->stocks = new ArrayCollection();
         $this->commandes = new ArrayCollection();
         $this->vendeurs = new ArrayCollection();
-        $this->creneaus = new ArrayCollection();
+        $this->creneaux = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -125,17 +125,17 @@ class Magasin
     /**
      * @return Creneau[]|ArrayCollection
      */
-    public function getCreneaus()
+    public function getCreneaux()
     {
-        return $this->creneaus;
+        return $this->creneaux;
     }
 
     /**
      * @param Creneau[]|ArrayCollection $creneaus
      */
-    public function setCreneaus($creneaus): void
+    public function setCreneaux($creneaux): void
     {
-        $this->creneaus = $creneaus;
+        $this->creneaux = $creneaux;
     }
 
 }
