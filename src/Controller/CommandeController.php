@@ -4,12 +4,15 @@ namespace App\Controller;
 
 use App\Entity\Client;
 use App\Entity\Commande;
+use App\Entity\CommandeStatut;
 use App\Entity\LigneCommande;
 use App\Entity\Magasin;
 use App\Entity\Produit;
 use App\Form\SelectionCreneauType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Swift_Mailer;
+use Swift_Message;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -114,6 +117,37 @@ class CommandeController extends AbstractController {
             'client' => $user,
             'formCreneau' => $selectionCreneauForm->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/commande/payer", name="commande_paye")
+     * @param Swift_Mailer $mailer
+     * @return RedirectResponse
+     */
+    public function payer(Swift_Mailer $mailer) {
+        $em = $this->getDoctrine()->getManager();
+        /** @var Client $user */
+        $user = $this->getUser();
+
+        /** @var Commande[] $commandes */
+        $commandes = $em->getRepository(Commande::class)->findBy(['client' => $user, 'etat' => null]);
+
+        foreach ($commandes as $commande) {
+            $commande->setEtat($em->getRepository(CommandeStatut::class)->find(1));
+            $em->persist($commande);
+        }
+        $em->flush();
+
+        $message = new Swift_Message('Confirmation de commande');
+        $message->setFrom('dev.lpmetinet@gmail.com')
+            ->setTo($user->getEmail())
+            ->setBody($this->renderView('commande/confirmation-email.html.twig', [
+                'commandes' => $commandes
+            ]), 'text/html');
+
+        $mailer->send($message);
+
+        return $this->redirectToRoute('magasin_list');
     }
 
     /**
