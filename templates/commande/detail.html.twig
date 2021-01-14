@@ -1,12 +1,14 @@
 {% extends 'base.html.twig' %}
 
+{% set total = 0 %}
+
 {% block body %}
 
     <div class="row">
-        <div class="col-md-9">
+        <div class="col-md-8">
             <div class="card shadow-sm mt-3">
                 <div class="card-body">
-                    <h3 class="card-title mb-5">{{ commandes|length > 1 ? 'Mes Commandes' : 'Ma Commande' }}</h3>
+                    <h3 class="card-title mb-5">Récapitulatif de {{ commandes|length > 1 ? 'Mes Commandes' : 'Ma Commande' }}</h3>
                     {% for commande in commandes %}
                         <div class="card shadow-sm mt-3 mb-4">
                             <div class="card-body">
@@ -16,25 +18,60 @@
                                 </div>
 
                                 <p class="card-text">Facturation :<br>
-                                    <span style="font-size: 14px; margin-left: 20px;">{{ client.nom ~ ' ' ~ client.prenom }}</span>
+                                    <span style="font-size: 14px; margin-left: 20px;">{{ client.nom ~ ' ' ~ client.prenom }}</span><br>
+                                    <span style="font-size: 14px; margin-left: 20px;">{{ client.adresse }}</span><br>
+                                    <span style="font-size: 14px; margin-left: 20px;">{{ client.codePostal ~ ' - ' ~ client.ville }}</span>
                                 </p>
-
+                                <hr>
+                                <p class="card-text font-weight-bold">Détail commande :</p>
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Produit</th>
+                                            <th scope="col" class="text-center">Prix unitaire</th>
+                                            <th scope="col" class="text-center">Quantité</th>
+                                            <th scope="col" class="text-right">Prix Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for ligne in commande.commandeLignes %}
+                                            <tr>
+                                                <th scope="row">{{ ligne.produit.label }}</th>
+                                                <td class="text-center">{{ ligne.produit.prix }} €</td>
+                                                <td class="text-center">{{ ligne.quantity }}</td>
+                                                <td class="text-right">{{ ligne.prixTot }} €</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                                <hr class="mt-5">
+                                <div class="text-right">
+                                    <p class="card-text font-weight-bold">Prix total de la commande : {{ commande.prixTotal }} €</p>
+                                </div>
                             </div>
                         </div>
+
+                        {% set total = total + commande.prixTotal %}
                     {% else %}
-                        <h3 class="card-text text-center">Votre panier est vide !</h3>
+                        <h3 class="card-text text-center">Aucune commande en attente de payement</h3>
                     {% endfor %}
                 </div>
             </div>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-4">
             <div class="card shadow-sm mt-3">
                 <div class="card-body">
-                    <h5 class="card-title font-weight-bold">Total de ma commande <span class="text-right">null €</span></h5>
+                    <h5 class="card-title font-weight-bold">Total de {{ commandes|length > 1 ? 'mes commandes' : 'ma commande'}}</h5>
+                    <p class="card-text font-weight-bold text-right">{{ total }} €</p>
+
+                    <div class="text-center">
+                        <a href="{{ path('commande_paye') }}" class="btn btn-success mt-5" role="button">Commander et Payer</a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+    <br>
 
 {% endblock %}
