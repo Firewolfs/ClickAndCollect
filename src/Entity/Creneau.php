@@ -45,4 +45,69 @@ class Creneau
     {
         return $this->id;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    /**
+     * @param mixed $date
+     */
+    public function setDate($date): void
+    {
+        $this->date = $date;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getReserver()
+    {
+        return $this->reserver;
+    }
+
+    /**
+     * @param mixed $reserver
+     */
+    public function setReserver($reserver): void
+    {
+        $this->reserver = $reserver;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCommande()
+    {
+        return $this->commande;
+    }
+
+    /**
+     * @param mixed $commande
+     */
+    public function setCommande($commande): void
+    {
+        $this->commande = $commande;
+    }
+
+    /**
+     * @return Magasin
+     */
+    public function getMagasin(): Magasin
+    {
+        return $this->magasin;
+    }
+
+    /**
+     * @param Magasin $magasin
+     */
+    public function setMagasin(Magasin $magasin): void
+    {
+        $this->magasin = $magasin;
+    }
+
 }

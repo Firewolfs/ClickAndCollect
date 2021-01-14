@@ -158,4 +158,15 @@ class MagasinController extends AbstractController
         $em->flush();
         return $this->redirectToRoute("magasin_list");
     }
+
+    /**
+     * @Route("magasin/test/{id}", name="test_magasin")
+     */
+    public function test(Magasin $magasin){
+        $form = $this->createForm(MagasinType::class, $magasin);
+
+        return $this->render('magasin/test.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
 }

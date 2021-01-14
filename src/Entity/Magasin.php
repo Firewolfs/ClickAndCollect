@@ -54,6 +54,7 @@ class Magasin
         $this->stocks = new ArrayCollection();
         $this->commandes = new ArrayCollection();
         $this->vendeurs = new ArrayCollection();
+        $this->creneaus = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -119,6 +120,22 @@ class Magasin
     public function setVendeurs($vendeurs): void
     {
         $this->vendeurs = $vendeurs;
+    }
+
+    /**
+     * @return Creneau[]|ArrayCollection
+     */
+    public function getCreneaus()
+    {
+        return $this->creneaus;
+    }
+
+    /**
+     * @param Creneau[]|ArrayCollection $creneaus
+     */
+    public function setCreneaus($creneaus): void
+    {
+        $this->creneaus = $creneaus;
     }
 
 }
