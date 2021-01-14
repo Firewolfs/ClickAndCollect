@@ -1,8 +1,19 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <a href="{{ path('tempo_remove') }}">Clear session</a>
-    <h1 style="text-align: center">{{ magasin.nom }}</h1>
+    {% for notif in app.flashes('notif') %}
+        <div class="alert alert-danger mt-3 m-0" role="alert">
+            {{ notif }}
+        </div>
+        <br>
+    {% endfor %}
+    <div class="row justify-content-md-center">
+        <h1 class="mr-3">{{ magasin.nom }}</h1>
+        <div class="align-self-center">
+            <a href="{{ path('magasin_contact', {id: magasin.id}) }}" class="btn btn-outline-info" role="button" title="Contater un vendeur"><i class="far fa-paper-plane"></i></a>
+        </div>
+    </div>
+
     <div class="row">
     {% for stock in magasin.stocks %}
         <div class="card col-2 mr-5 mt-5" style="width: 18rem;">
@@ -13,7 +24,7 @@
                 {% if stock.quantity < 1 %}
                     <a href="#" class="btn btn-danger disabled" aria-disabled="true">Rupture de stock</a>
                 {% else %}
-                    <a href="{{ path('commande_add_product', {id: stock.produit.id}) }}" class="btn btn-primary">Commander</a>
+                    <a href="{{ path('commande_add_product', {id: stock.magasin.id, id_product: stock.produit.id}) }}" class="btn btn-primary">Commander</a>
                 {% endif %}
             </div>
         </div>
