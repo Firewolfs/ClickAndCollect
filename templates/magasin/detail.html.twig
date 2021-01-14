@@ -7,6 +7,12 @@
         </div>
         <br>
     {% endfor %}
+    <div class="row justify-content-md-center">
+        <h1 class="mr-3">{{ magasin.nom }}</h1>
+        <div class="align-self-center">
+            <a href="{{ path('magasin_contact', {id: magasin.id}) }}" class="btn btn-outline-info" role="button" title="Contater un vendeur"><i class="far fa-paper-plane"></i></a>
+        </div>
+    </div>
 
     <a href="{{ path('tempo_remove') }}">Clear session</a>
     <h1 style="text-align: center">{{ magasin.nom }}</h1>
