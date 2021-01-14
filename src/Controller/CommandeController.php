@@ -61,41 +61,50 @@ class CommandeController extends AbstractController {
     /**
      * @Route("/commande/confirmation", name="commande_create")
      * @param SessionInterface $session
-     * @return RedirectResponse
+     * @return Response
      */
     public function createCommand(SessionInterface $session) {
         $em = $this->getDoctrine()->getManager();
         $panier = $session->get('panier', []);
 
-        foreach ($panier as $idMagasin => $produits) {
-            $commande = new Commande();
-            $prixTot = 0;
+        /** @var Client $user */
+        $user = $this->getUser();
 
-            $commande->setClient($em->getRepository(Client::class)->findOneBy(['email' => $this->getUser()->getUsername()]));
-            $commande->setMagasin($em->getRepository(Magasin::class)->find($idMagasin));
+//        foreach ($panier as $idMagasin => $produits) {
+//            $commande = new Commande();
+//            $prixTot = 0;
+//
+//            $commande->setClient($user);
+//            $commande->setMagasin($em->getRepository(Magasin::class)->find($idMagasin));
+//
+//            foreach ($produits as $idProduit => $quantity) {
+//                $ligneCommande = new LigneCommande();
+//                $produit = $em->getRepository(Produit::class)->find($idProduit);
+//
+//                $ligneCommande->setProduit($produit);
+//                $ligneCommande->setCommande($commande);
+//                $ligneCommande->setQuantity($quantity);
+//                $ligneCommande->setPrixTot($produit->getPrix() * $quantity);
+//
+//                $prixTot += $ligneCommande->getPrixTot();
+//
+//                $em->persist($ligneCommande);
+//            }
+//            $commande->setPrixTotal($prixTot);
+//
+//            $em->persist($commande);
+//        }
+//
+//        $em->flush();
+//        $session->remove('panier');
 
-            foreach ($produits as $idProduit => $quantity) {
-                $ligneCommande = new LigneCommande();
-                $produit = $em->getRepository(Produit::class)->find($idProduit);
+        /** @var Commande[] $commandes */
+        $commandes = $em->getRepository(Commande::class)->findBy(['client' => $user, 'etat' => null]);
 
-                $ligneCommande->setProduit($produit);
-                $ligneCommande->setCommande($commande);
-                $ligneCommande->setQuantity($quantity);
-                $ligneCommande->setPrixTot($produit->getPrix() * $quantity);
-
-                $prixTot += $ligneCommande->getPrixTot();
-
-                $em->persist($ligneCommande);
-            }
-            $commande->setPrixTotal($prixTot);
-
-            $em->persist($commande);
-        }
-
-        $em->flush();
-        $session->remove('panier');
-
-        return $this->redirectToRoute('magasin_list');
+        return $this->render('commande/detail.html.twig', [
+            'commandes' => $commandes,
+            'client' => $user
+        ]);
     }
 
     /**

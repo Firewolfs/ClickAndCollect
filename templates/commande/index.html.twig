@@ -50,10 +50,10 @@
 
     <div class="row mb-5">
         <div class="col-md-6 text-left">
-            <a href="{{ path('magasin_list') }}" class="btn btn-primary mt-5">Continuer mes achats</a>
+            <a href="{{ path('magasin_list') }}" class="btn btn-primary mt-5" role="button">Continuer mes achats</a>
         </div>
         <div class="col-md-6 text-right">
-            <a href="{{ path('commande_create') }}" class="btn btn-success mt-5">Passer commande</a>
+            <a href="{{ path('commande_create') }}" class="btn btn-success mt-5 {{ magasins is empty ? 'disabled' : '' }}" role="button" aria-disabled="{{ magasins is empty }}">Passer commande</a>
         </div>
     </div>
 
