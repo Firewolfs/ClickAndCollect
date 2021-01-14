@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class MagasinController extends AbstractController
 {
     /**
-     * @Route("/magasin", name="magasin_list")
+     * @Route("/", name="magasin_list")
      */
     public function index(): Response
     {
