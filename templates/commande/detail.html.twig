@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
 
+{% set total = 0 %}
+
 {% block body %}
 
     <div class="row">
@@ -24,33 +26,28 @@
                                 <p class="card-text font-weight-bold">Détail commande :</p>
                                 <table class="table table-hover">
                                     <thead>
-                                        <tr>
-                                            <th scope="col">Produit</th>
-                                            <th scope="col" class="text-center">Prix unitaire</th>
-                                            <th scope="col" class="text-center">Quantité</th>
-                                            <th scope="col" class="text-right">Prix Total</th>
-                                        </tr>
+                                    <tr>
+                                        <th scope="col">Produit</th>
+                                        <th scope="col" class="text-center">Prix unitaire</th>
+                                        <th scope="col" class="text-center">Quantité</th>
+                                        <th scope="col" class="text-right">Prix Total</th>
+                                    </tr>
                                     </thead>
                                     <tbody>
-                                        {% for ligne in commande.commandeLignes %}
-                                            <tr>
-                                                <th scope="row">{{ ligne.produit.label }}</th>
-                                                <td class="text-center">{{ ligne.produit.prix }} €</td>
-                                                <td class="text-center">{{ ligne.quantity }}</td>
-                                                <td class="text-right">{{ ligne.prixTot }} €</td>
-                                            </tr>
-                                        {% endfor %}
+                                    {% for ligne in commande.commandeLignes %}
+                                        <tr>
+                                            <th scope="row">{{ ligne.produit.label }}</th>
+                                            <td class="text-center">{{ ligne.produit.prix }} €</td>
+                                            <td class="text-center">{{ ligne.quantity }}</td>
+                                            <td class="text-right">{{ ligne.prixTot }} €</td>
+                                        </tr>
+                                    {% endfor %}
                                     </tbody>
                                 </table>
                                 <hr class="mt-5">
                                 <div class="text-right">
                                     <p class="card-text font-weight-bold">Prix total de la commande : {{ commande.prixTotal }} €</p>
                                 </div>
-                                <p class="card-text">Choisir créneau de retrait :<br>
-                                    {{ form_start(formCreneau) }}
-                                    {{ form_end(formCreneau) }}
-                                </p>
-
                             </div>
                         </div>
 

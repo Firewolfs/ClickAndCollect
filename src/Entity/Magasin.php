@@ -138,4 +138,16 @@ class Magasin
         $this->creneaux = $creneaux;
     }
 
+    /**
+     * @return array[]
+     */
+    public function getCreneauxDisponible(){
+        $result = [];
+        foreach ($this->creneaux as $creneau){
+            if($creneau->getReserver() == false){
+                $result[] = $creneau;
+            }
+        }
+        return $result;
+    }
 }

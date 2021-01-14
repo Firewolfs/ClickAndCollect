@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Client;
 use App\Entity\Commande;
 use App\Entity\CommandeStatut;
+use App\Entity\Creneau;
 use App\Entity\LigneCommande;
 use App\Entity\Magasin;
 use App\Entity\Produit;
@@ -115,6 +116,48 @@ class CommandeController extends AbstractController {
         return $this->render('commande/detail.html.twig', [
             'commandes' => $commandes,
             'client' => $user,
+
+        ]);
+    }
+
+    /**
+     * @Route("/commande", name="commande_list")
+     */
+    public function mesCommandes(){
+        $em = $this->getDoctrine()->getManager();
+        $commandes = $em->getRepository(Commande::class)->findBy(['client' => $this->getUser()]);
+
+        return $this->render('commande/listCommande.html.twig',[
+            'commandes' => $commandes,
+        ]);
+    }
+
+    /**
+     * @Route("/commande/creneau/{id}", name="commande_creneau")
+     * @param Request $request
+     * @param Commande $commande
+     * @return Response
+     */
+    public function commandeCreneau(Request $request, Commande $commande){
+        $em = $this->getDoctrine()->getManager();
+        $creneaux = $commande->getMagasin()->getCreneauxDisponible();
+
+
+        foreach ($creneaux as $creneau){
+            $creneauForm[$creneau->getDate()->format('d-m-y H:i:s')] = $creneau->getId();
+        }
+        $selectionCreneauForm = $this->createForm(SelectionCreneauType::class, null, ['creneaux' => $creneauForm]);
+
+        $selectionCreneauForm->handleRequest($request);
+
+        if($selectionCreneauForm->isSubmitted() && $selectionCreneauForm->isValid()){
+            $creneauSelected = $em->getRepository(Creneau::class)->find($selectionCreneauForm['creneaux']->getData());
+            $commande->setCreneau($creneauSelected);
+            $em->persist($commande);
+            $em->flush();
+        }
+
+        return $this->render('commande/commande-creneau.html.twig',[
             'formCreneau' => $selectionCreneauForm->createView(),
         ]);
     }
