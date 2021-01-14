@@ -20,7 +20,7 @@
                                             <div class="col-md-2">
                                                 <img src="{{ asset('../../image/'~ produit.produit.label ~'.jpg') }}" class="card-img img-fluid" alt="...">
                                             </div>
-                                            <div class="col-md-10">
+                                            <div class="col-md-9">
                                                 <div class="card-body d-flex flex-column h-100">
                                                     <h5 class="card-title mb-1 font-weight-bold">{{ produit.produit.label }}</h5>
 
@@ -28,6 +28,9 @@
                                                     <p class="card-text">Quantité : {{ produit.quantity }}</p>
                                                     <p class="card-text">Prix Total : {{ prix_total_produit }} €</p>
                                                 </div>
+                                            </div>
+                                            <div class="col-md-1 text-right">
+                                                <a href="{{ path('commande_remove_product', {id: magasin.magasin.id, id_product: produit.produit.id}) }}" class="btn btn-outline-danger" role="button"><i class="far fa-trash-alt"></i></a>
                                             </div>
                                         </div>
                                     </div>

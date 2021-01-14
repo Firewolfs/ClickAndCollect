@@ -24,6 +24,7 @@ class CommandeController extends AbstractController {
     /**
      * @Route("/tempo_remove", name="tempo_remove")
      * @param SessionInterface $session
+     * @return RedirectResponse
      */
     public function tempo(SessionInterface $session) {
         $session->clear();
@@ -168,5 +169,24 @@ class CommandeController extends AbstractController {
             $this->addFlash('notif', 'Vous devez être connecté pour pouvoir ajouter des articles dans votre panier.');
             return $this->redirect($prevPathInfo);
         }
+    }
+
+    /**
+     * @Route("/commande/remove/{id}/{id_product}", name="commande_remove_product")
+     * @Entity("produit", expr="repository.find(id_product)")
+     * @param Magasin $magasin
+     * @param Produit $produit
+     * @param SessionInterface $session
+     * @return RedirectResponse
+     */
+    public function removeProduct(Magasin $magasin, Produit $produit, SessionInterface $session) {
+        $panier = $session->get('panier', []);
+
+        unset($panier[$magasin->getId()][$produit->getId()]);
+        if (empty($panier[$magasin->getId()])) { unset($panier[$magasin->getId()]); }
+
+        $session->set('panier', $panier);
+
+        return $this->redirectToRoute('commande');
     }
 }
