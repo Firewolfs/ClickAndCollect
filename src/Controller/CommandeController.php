@@ -22,18 +22,6 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class CommandeController extends AbstractController {
-
-    /**
-     * @Route("/tempo_remove", name="tempo_remove")
-     * @param SessionInterface $session
-     * @return RedirectResponse
-     */
-    public function tempo(SessionInterface $session) {
-        $session->clear();
-
-        return $this->redirectToRoute('magasin_list');
-    }
-
     /**
      * @Route("/panier", name="commande")
      * @param SessionInterface $session
