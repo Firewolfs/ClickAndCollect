@@ -30,7 +30,8 @@ class Commande
     private $etat;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\OneToOne(targetEntity="Creneau", inversedBy="commande")
+     * @ORM\JoinColumn(name="id_creneau", referencedColumnName="id_creneau")
      */
     private $creneau;
 

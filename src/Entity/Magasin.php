@@ -41,6 +41,13 @@ class Magasin
     private $vendeurs;
 
     /**
+     * @var Creneau[]|ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="Creneau", mappedBy="magasin")
+     */
+    private $creneaus;
+
+    /**
      * Magasin constructor.
      */
     public function __construct() {

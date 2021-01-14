@@ -18,6 +18,21 @@ class StockController extends AbstractController
      */
     public function addStock(Request $request, Magasin $magasin):Response
     {
+        $admin = false;
+        $user = $this->getUser();
+        if($user != null){
+            $roles = $user->getRoles();
+            foreach ($roles as $role){
+                if($role == "ROLE_ADMIN"){
+                    $admin = true;
+                    break;
+                }
+            }
+        }
+        if($admin == false){
+            return $this->redirectToRoute("magasin_list");
+        }
+
         $em = $this->getDoctrine()->getManager();
         $form = $this->createForm(StockType::class,null, ["addStock" => true] );
 
@@ -44,6 +59,21 @@ class StockController extends AbstractController
      */
     public function editStock(Request $request, Stocks $stock):Response
     {
+        $admin = false;
+        $user = $this->getUser();
+        if($user != null){
+            $roles = $user->getRoles();
+            foreach ($roles as $role){
+                if($role == "ROLE_ADMIN"){
+                    $admin = true;
+                    break;
+                }
+            }
+        }
+        if($admin == false){
+            return $this->redirectToRoute("magasin_list");
+        }
+
         $em = $this->getDoctrine()->getManager();
         $form = $this->createForm(StockType::class, $stock);
 

@@ -2,7 +2,9 @@
 
 {% block body %}
     <h1 class="text-center">Liste des magasins</h1>
-
+    {% if admin == true %}
+        <a href="{{ path('magasin_add') }}"><button class="btn btn-primary">Ajouter un magasin</button></a>
+    {% endif %}
     <div class="container">
     {% for magasin in magasins %}
         <div class="card mt-5">
@@ -17,13 +19,15 @@
                     <div class="col">
                         <p class="card-text text-center">Description du magasin blablabla blablabla</p>
                     </div>
-                    <div class="col">
+                    <div class="col text-center">
                         <a href="{{ path('magasin_detail', {id: magasin.id}) }}" class="btn btn-primary text-center">Voir le magasin</a>
+                        {% if admin == true %}
+                            <a href="{{ path('magasin_edit', {id: magasin.id}) }}" class="btn btn-secondary text-center mt-5">Modifier le magasin</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
         </div>
     {% endfor %}
     </div>
-    <a href="{{ path('magasin_add') }}"><button class="btn btn-primary">Ajouter un magasin</button></a>
 {% endblock %}

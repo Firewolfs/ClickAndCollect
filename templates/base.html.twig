@@ -7,9 +7,17 @@
     </head>
     <body>
         <div class="container">
-            <div class="text-right mb-5">
-                <a href="{{ path('commande') }}">Mon panier</a>
-            </div>
+            {% if app.user is not null %}
+                <div class="text-right mb-5">
+                    <a class="mr-5" href="{{ path('app_logout') }}">Deconnexion</a>
+                    <a href="{{ path('commande') }}">Mon panier</a>
+                </div>
+            {% else %}
+                <div class="text-right mb-5">
+                    <a class="mr-5" href="{{ path('app_login') }}">Connexion</a>
+                    <a href="{{ path('app_register') }}">S'inscrire</a>
+                </div>
+            {% endif %}
             {% block body %}{% endblock %}
         </div>
         {% block javascripts %}
