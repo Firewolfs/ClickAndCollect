@@ -36,7 +36,7 @@
                 <ul class="nav navbar-nav navbar-right">
                     {% if app.user is not null %}
                         <li class="nav-item">
-                            <a title="Mes commandes" class="nav-link" href="{{ path('commande_list') }}">Mes commandes</a>
+                            <a title="Mes commandes" class="nav-link {{ routeName == 'commande_list' ? 'active' : '' }}" href="{{ path('commande_list') }}">Mes commandes</a>
                         </li>
                         <li class="nav-item">
                             <a title="Mon panier" class="nav-link" href="{{ path('commande') }}"><i style="font-size: 20px" class="fas fa-shopping-cart"></i></a>
