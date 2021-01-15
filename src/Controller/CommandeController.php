@@ -114,10 +114,15 @@ class CommandeController extends AbstractController {
      */
     public function mesCommandes(){
         $em = $this->getDoctrine()->getManager();
-        $commandes = $em->getRepository(Commande::class)->findBy(['client' => $this->getUser()]);
+        $commandesEnCours = $em->getRepository(Commande::class)->findCommandeEnCours($this->getUser()->getId());
+        $commandesTerminer = $em->getRepository(Commande::class)->findCommandeTerminer($this->getUser());
+
+        //dd($commandesEnCours);
+        //dd($commandesTerminer);
 
         return $this->render('commande/listCommande.html.twig',[
-            'commandes' => $commandes,
+            'commandesEnCours' => $commandesEnCours,
+            'commandesTerminer' => $commandesTerminer,
         ]);
     }
 

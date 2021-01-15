@@ -1,4 +1,93 @@
 {% extends 'base.html.twig' %}
 {% block body %}
+    <h2>Mes commandes en cours :</h2>
+    {% for commandeEnCours in commandesEnCours %}
+        <div class="card mt-5">
+            <div class="card-body">
+                <div class="card-title">
+                    <h4>Commande numéro : {{ commandeEnCours.id }}</h4>
+                </div>
+                <hr>
+                <div class="row text-center">
+                    {% if commandeEnCours.etat.id == 1%}
+                        <div class="col">
+                            <h5 class="">Prix</h5>
+                            <p>{{ commandeEnCours.prixTotal }}€</p>
+                        </div>
+                        <div class="col">
+                            <h5>Horraire</h5>
+                            <p>{{ commandeEnCours.creneau }}</p>
+                        </div>
+                        <div class="col">
+                            <button class="btn btn-success">{{ commandeEnCours.etat.label }}</button>
+                        </div>
+                    {% elseif commandeEnCours.etat.id == 2%}
+                        <div class="col">
+                            <h5 class="">Prix</h5>
+                            <p>{{ commandeEnCours.prixTotal }}€</p>
+                        </div>
+                        <div class="col">
+                            <h5>Horraire</h5>
+                            <p>En attente</p>
+                        </div>
+                        <div class="col">
+                            <button class="btn btn-danger">{{ commandeEnCours.etat.label }}</button>
+                        </div>
+                    {% elseif commandeEnCours.etat.id == 3%}
+                        <div class="col">
+                            <h5 class="">Prix</h5>
+                            <p>{{ commandeEnCours.prixTotal }}€</p>
+                        </div>
+                        <div class="col">
+                            <h5>Horraire</h5>
+                            <p>Choisir créneau</p>
+                        </div>
+                        <div class="col">
+                            <a href="{{ path('commande_creneau', {id: commandeEnCours.id}) }}"><button class="btn btn-primary">{{ commandeEnCours.etat.label }}</button></a>
+                        </div>
+                    {% endif %}
 
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+
+    <h2 class="mt-5">Mes commandes passé :</h2>
+    {% for commandeTerminer in commandesTerminer %}
+        <div class="card mt-5">
+            <div class="card-body">
+                <div class="card-title">
+                    <p>Commande numéro : {{ commandeTerminer.id }}</p>
+                </div>
+                <hr>
+                <div class="row text-center">
+                    {% if commandeTerminer.etat.id ==  4%}
+                        <div class="col">
+                            <h5 class="">Prix</h5>
+                            <p>{{ commandeTerminer.prixTotal }}€</p>
+                        </div>
+                        <div class="col">
+                            <h5>Horraire</h5>
+                            <p>{{ commandeTerminer.creneau }}</p>
+                        </div>
+                        <div class="col">
+                            <button class="btn btn-success">{{ commandeTerminer.etat.label }}</button>
+                        </div>
+                    {% elseif commandeTerminer.etat.id == 5 %}
+                        <div class="col">
+                            <h5 class="">Prix</h5>
+                            <p>{{ commandeTerminer.prixTotal }}€</p>
+                        </div>
+                        <div class="col">
+                            <h5>Horraire</h5>
+                            <p>{{ commandeTerminer.creneau }}</p>
+                        </div>
+                        <div class="col">
+                            <button class="btn btn-danger">{{ commandeTerminer.etat.label }}</button>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
 {% endblock %}
