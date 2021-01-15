@@ -276,4 +276,19 @@ class CommandeController extends AbstractController {
 
         return $this->redirectToRoute('commande');
     }
+
+    /**
+     * @Route("/commande/cancel/{id}", name="commande_cancel")
+     * @param Commande $commande
+     * @return RedirectResponse
+     */
+    public function cancel(Commande $commande) {
+        $em = $this->getDoctrine()->getManager();
+
+        $commande->setEtat($em->getRepository(CommandeStatut::class)->find(5));
+        $em->persist($commande);
+        $em->flush();
+
+        return $this->redirectToRoute('commande_detail');
+    }
 }
