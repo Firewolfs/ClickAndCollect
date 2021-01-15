@@ -2,9 +2,6 @@
 
 {% block body %}
     <h1 class="text-center">Liste des magasins</h1>
-    {% if admin == true %}
-        <a href="{{ path('magasin_add') }}"><button class="btn btn-primary">Ajouter un magasin</button></a>
-    {% endif %}
     <div class="container">
     {% for magasin in magasins %}
         <div class="card mt-5">
@@ -19,12 +16,25 @@
                     <div class="col">
                         <p class="card-text text-center">Description du magasin blablabla blablabla</p>
                     </div>
-                    <div class="col text-center">
+                    <div class="col text-right">
                         <a href="{{ path('magasin_detail', {id: magasin.id}) }}" class="btn btn-primary text-center">Voir le magasin</a>
-                        {% if admin == true %}
-                            <a href="{{ path('magasin_edit', {id: magasin.id}) }}" class="btn btn-secondary text-center mt-5">Modifier le magasin</a>
-                        {% endif %}
                     </div>
+                    {% if admin == true %}
+                        <div class="col-md-1 text-right">
+                            <div class="card-dropdown dropdown">
+                                <a class="btn btn-xs btn-fab btn-ternary dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-ellipsis-v"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right shadow-sm" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item text-info" href="{{ path('magasin_edit', {id: magasin.id}) }}"><i class="fas fa-edit"></i> Modifier</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item text-danger" href="{{ path('magasin_delete', {id: magasin.id}) }}"><i class="fas fa-edit"></i> Supprimer</a>
+                                </div>
+                            </div>
+                            {#                            <a href="{{ path('magasin_edit', {id: magasin.id}) }}" class="btn btn-secondary text-center mt-5"><i class="fas fa-edit"></i> Modifier le magasin</a>#}
+                            {#                            <a href="{{ path('magasin_delete', {id: magasin.id}) }}" class="btn btn-secondary text-center mt-1"><i class="fas fa-trash-alt"></i> Supprimer le magasin</a>#}
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         </div>

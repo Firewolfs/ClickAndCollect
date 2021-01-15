@@ -26,17 +26,17 @@ class Magasin
 
     /**
      * @var Stocks[]|ArrayCollection
-     * @ORM\OneToMany(targetEntity="App\Entity\Stocks", mappedBy="magasin")
+     * @ORM\OneToMany(targetEntity="App\Entity\Stocks", mappedBy="magasin", cascade={"remove"})
      */
     private $stocks;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Commande", mappedBy="magasin")
+     * @ORM\OneToMany(targetEntity="App\Entity\Commande", mappedBy="magasin", cascade={"remove"})
      */
     private $commandes;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Vendeur", mappedBy="magasin")
+     * @ORM\OneToMany(targetEntity="App\Entity\Vendeur", mappedBy="magasin", cascade={"remove"})
      */
     private $vendeurs;
 

@@ -36,7 +36,7 @@ class Commande
     private $creneau;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\LigneCommande", mappedBy="commande")
+     * @ORM\OneToMany(targetEntity="App\Entity\LigneCommande", mappedBy="commande", cascade={"remove"})
      */
     private $commande_lignes;
 
@@ -47,6 +47,7 @@ class Commande
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Magasin", inversedBy="commandes")
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $magasin;
 

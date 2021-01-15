@@ -52,7 +52,7 @@ class RegistrationController extends AbstractController
             // do anything else you need here, like send an email
             $message = new Swift_Message('Création de compte');
             $message->setFrom('dev.lpmetinet@gmail.com')
-                ->setTo('christopher.leguillier1@gmail.com')
+                ->setTo($user->getEmail())
                 ->setBody($this->renderView('registration/register-email.html.twig'), 'text/html');
 
             $mailer->send($message);

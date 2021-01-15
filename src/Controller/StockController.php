@@ -45,9 +45,13 @@ class StockController extends AbstractController
             $stock->setQuantity($form['quantity']->getData());
             $em->persist($stock);
             $em->flush();
+
+            return $this->redirectToRoute('magasin_detail', ['id' => $stock->getMagasin()->getId()]);
         }
+
         return $this->render('stock/addStock.html.twig', [
             'form' => $form->createView(),
+            'admin' => $admin
         ]);
     }
 
@@ -83,9 +87,13 @@ class StockController extends AbstractController
             $stock->setQuantity($form['quantity']->getData());
             $em->persist($stock);
             $em->flush();
+
+            return $this->redirectToRoute('magasin_detail', ['id' => $stock->getMagasin()->getId()]);
         }
+
         return $this->render('stock/editStock.html.twig', [
             'form' => $form->createView(),
+            'admin' => $admin
         ]);
     }
 }

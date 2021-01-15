@@ -45,6 +45,7 @@ class Vendeur
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Magasin", inversedBy="vendeurs")
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $magasin;
 

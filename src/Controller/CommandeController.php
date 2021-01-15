@@ -32,6 +32,18 @@ class CommandeController extends AbstractController {
         $panier = $session->get('panier', []);
         $magasins = [];
 
+        $admin = false;
+        $user = $this->getUser();
+        if($user != null){
+            $roles = $user->getRoles();
+            foreach ($roles as $role){
+                if($role == "ROLE_ADMIN"){
+                    $admin = true;
+                    break;
+                }
+            }
+        }
+
         foreach ($panier as $idMagasin => $produits) {
             $products = [];
             foreach ($produits as $idProduit => $quantite) {
@@ -48,7 +60,8 @@ class CommandeController extends AbstractController {
         }
 
         return $this->render('commande/index.html.twig', [
-            'magasins' => $magasins
+            'magasins' => $magasins,
+            'admin' => $admin
         ]);
     }
 
@@ -61,9 +74,19 @@ class CommandeController extends AbstractController {
         $em = $this->getDoctrine()->getManager();
         $panier = $session->get('panier', []);
 
-
         /** @var Client $user */
         $user = $this->getUser();
+
+        $admin = false;
+        if($user != null){
+            $roles = $user->getRoles();
+            foreach ($roles as $role){
+                if($role == "ROLE_ADMIN"){
+                    $admin = true;
+                    break;
+                }
+            }
+        }
 
         foreach ($panier as $idMagasin => $produits) {
             $commande = new Commande();
@@ -73,13 +96,14 @@ class CommandeController extends AbstractController {
             $commande->setMagasin($em->getRepository(Magasin::class)->find($idMagasin));
 
             $magasin = $em->getRepository(Magasin::class)->find($idMagasin);
-            foreach ($magasin->getCreneaux() as $creneau){
-                $creneauForm[$creneau->getDate()->format('H:i:s')] = $creneau->getId() ;
-            }
-            $selectionCreneauForm = $this->createForm(SelectionCreneauType::class, null, ['creneaux' => $creneauForm]);
+//            foreach ($magasin->getCreneaux() as $creneau){
+//                $creneauForm[$creneau->getDate()->format('H:i:s')] = $creneau->getId() ;
+//            }
+//            $selectionCreneauForm = $this->createForm(SelectionCreneauType::class, null, ['creneaux' => $creneauForm]);
 
             foreach ($produits as $idProduit => $quantity) {
                 $ligneCommande = new LigneCommande();
+                /** @var Produit $produit */
                 $produit = $em->getRepository(Produit::class)->find($idProduit);
 
                 $ligneCommande->setProduit($produit);
@@ -99,13 +123,36 @@ class CommandeController extends AbstractController {
         $em->flush();
         $session->remove('panier');
 
+        return $this->redirectToRoute('commande_detail');
+    }
+
+    /**
+     * @Route("/commande/detail", name="commande_detail")
+     */
+    public function detail() {
+        $em = $this->getDoctrine()->getManager();
+
+        /** @var Client $user */
+        $user = $this->getUser();
+
+        $admin = false;
+        if($user != null){
+            $roles = $user->getRoles();
+            foreach ($roles as $role){
+                if($role == "ROLE_ADMIN"){
+                    $admin = true;
+                    break;
+                }
+            }
+        }
+
         /** @var Commande[] $commandes */
         $commandes = $em->getRepository(Commande::class)->findBy(['client' => $user, 'etat' => null]);
 
         return $this->render('commande/detail.html.twig', [
             'commandes' => $commandes,
             'client' => $user,
-
+            'admin' => $admin
         ]);
     }
 

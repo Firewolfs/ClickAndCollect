@@ -101,6 +101,7 @@ class MagasinController extends AbstractController
         }
         return $this->render('magasin/add.html.twig', [
             'form' => $addFrom->createView(),
+            'admin' => $admin
         ]);
     }
 
@@ -135,6 +136,7 @@ class MagasinController extends AbstractController
 
         return $this->render('magasin/edit.html.twig', [
             'form' => $editForm->createView(),
+            'admin' => $admin
         ]);
     }
 
@@ -181,6 +183,18 @@ class MagasinController extends AbstractController
             $vend[$vendeur->getNom() . ' ' . $vendeur->getPrenom()] = $vendeur->getId();
         }
 
+        $admin = false;
+        $user = $this->getUser();
+        if($user != null){
+            $roles = $user->getRoles();
+            foreach ($roles as $role){
+                if($role == "ROLE_ADMIN"){
+                    $admin = true;
+                    break;
+                }
+            }
+        }
+
         $form = $this->createForm(ContactType::class, null, ['vendeurs' => $vend]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -197,7 +211,8 @@ class MagasinController extends AbstractController
         }
 
         return $this->render('magasin/contact.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'admin' => $admin
         ]);
     }
 }

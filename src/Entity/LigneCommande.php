@@ -24,6 +24,7 @@ class LigneCommande
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Commande", inversedBy="commande_lignes")
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $commande;
 
