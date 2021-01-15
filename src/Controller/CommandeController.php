@@ -161,6 +161,17 @@ class CommandeController extends AbstractController {
      * @Route("/commande", name="commande_list")
      */
     public function mesCommandes(){
+        $admin = false;
+        $user = $this->getUser();
+        if($user != null){
+            $roles = $user->getRoles();
+            foreach ($roles as $role){
+                if($role == "ROLE_ADMIN"){
+                    $admin = true;
+                    break;
+                }
+            }
+        }
         $em = $this->getDoctrine()->getManager();
         $commandesEnCours = $em->getRepository(Commande::class)->findCommandeEnCours($this->getUser()->getId());
         $commandesTerminer = $em->getRepository(Commande::class)->findCommandeTerminer($this->getUser());
@@ -171,6 +182,7 @@ class CommandeController extends AbstractController {
         return $this->render('commande/listCommande.html.twig',[
             'commandesEnCours' => $commandesEnCours,
             'commandesTerminer' => $commandesTerminer,
+            'admin' => $admin,
         ]);
     }
 
@@ -181,6 +193,18 @@ class CommandeController extends AbstractController {
      * @return Response
      */
     public function commandeCreneau(Request $request, Commande $commande){
+        $admin = false;
+        $user = $this->getUser();
+        if($user != null){
+            $roles = $user->getRoles();
+            foreach ($roles as $role){
+                if($role == "ROLE_ADMIN"){
+                    $admin = true;
+                    break;
+                }
+            }
+        }
+
         $em = $this->getDoctrine()->getManager();
         $creneaux = $commande->getMagasin()->getCreneauxDisponible();
 
@@ -201,6 +225,7 @@ class CommandeController extends AbstractController {
 
         return $this->render('commande/commande-creneau.html.twig',[
             'formCreneau' => $selectionCreneauForm->createView(),
+            'admin' => $admin,
         ]);
     }
 
@@ -231,6 +256,7 @@ class CommandeController extends AbstractController {
 
         return $this->render('commande/gerer-commande-list.html.twig',[
             'commandes' => $commandes,
+            'admin' => $admin,
         ]);
     }
 
@@ -271,6 +297,7 @@ class CommandeController extends AbstractController {
         return $this->render('commande/gerer-commande.html.twig',[
             'commande' => $commande,
             'form' => $form->createView(),
+            'admin' => $admin,
         ]);
     }
 
