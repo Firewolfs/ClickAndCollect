@@ -208,6 +208,9 @@ class CommandeController extends AbstractController {
         $em = $this->getDoctrine()->getManager();
         $creneaux = $commande->getMagasin()->getCreneauxDisponible();
 
+        if($creneaux != null){
+
+
 
         foreach ($creneaux as $creneau){
             $creneauForm[$creneau->getDate()->format('d-m-y H:i:s')] = $creneau->getId();
@@ -227,6 +230,10 @@ class CommandeController extends AbstractController {
             'formCreneau' => $selectionCreneauForm->createView(),
             'admin' => $admin,
         ]);
+        }
+        else{
+            return $this->redirectToRoute('magasin_list');
+        }
     }
 
     /**
