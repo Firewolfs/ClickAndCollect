@@ -169,6 +169,9 @@ class CommandeController extends AbstractController {
                 }
             }
         }
+        else{
+            return $this->redirectToRoute('app_login');
+        }
         $em = $this->getDoctrine()->getManager();
         $commandesEnCours = $em->getRepository(Commande::class)->findCommandeEnCours($this->getUser()->getId());
         $commandesTerminer = $em->getRepository(Commande::class)->findCommandeTerminer($this->getUser());
@@ -259,9 +262,12 @@ class CommandeController extends AbstractController {
 
     /**
      * @Route("/commande/gerer/{id}", name="commande_gerer_etat")
-     *
+     * @param Request $request
+     * @param Commande $commande
+     * @param Swift_Mailer $mailer
+     * @return RedirectResponse|Response
      */
-    public function gererEtatCommande(Request $request, Commande $commande){
+    public function gererEtatCommande(Request $request, Commande $commande, Swift_Mailer $mailer){
         $admin = false;
         $user = $this->getUser();
         if($user != null){
@@ -288,6 +294,16 @@ class CommandeController extends AbstractController {
             $commande->setEtat($form['etat']->getData());
             $em->persist($commande);
             $em->flush();
+            if($form['etat']->getData()->getId() == 3){
+                $message = new Swift_Message('Confirmation de commande');
+                $message->setFrom('dev.lpmetinet@gmail.com')
+                    ->setTo($user->getEmail())
+                    ->setBody($this->renderView('commande/commande-prete-email.html.twig', [
+                        'commande' => $commande
+                    ]), 'text/html');
+
+                $mailer->send($message);
+            }
             return $this->redirectToRoute('commande_gerer');
         }
 
@@ -327,7 +343,7 @@ class CommandeController extends AbstractController {
         $message->setFrom('dev.lpmetinet@gmail.com')
             ->setTo($user->getEmail())
             ->setBody($this->renderView('commande/confirmation-email.html.twig', [
-                'commandes' => $commandes
+                'commande' => $commande
             ]), 'text/html');
 
         $mailer->send($message);
