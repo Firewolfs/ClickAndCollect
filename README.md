@@ -1,5 +1,5 @@
 # ClickAndCollect
-Site Click &amp; Collect Symfony LP METINET
+Site Click &amp; Collect Symfony LP METINET  
 Groupe : OVEJERO Daniel - LEGUILLIER Christopher
 
 ## Initialisation du projet
