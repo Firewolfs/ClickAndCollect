@@ -1,7 +1,14 @@
 {% extends 'base.html.twig' %}
 {% block body %}
 
-{{ form_start(formCreneau) }}
-    <button type="submit" class="btn btn-primary">Valider</button>
-{{ form_end(formCreneau) }}
+    <div class="container text-center">
+        <h2 class="mb-5">Choisir un créneau pour récupérer votre commande</h2>
+        {{ form_start(formCreneau) }}
+            {{ form_label(formCreneau.creneaux) }}
+            {{ form_widget(formCreneau.creneaux) }}
+            <button type="submit" class="btn btn-primary mt-5">Valider</button>
+        {{ form_end(formCreneau) }}
+    </div>
+
+
 {% endblock %}

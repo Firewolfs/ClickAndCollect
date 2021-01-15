@@ -9,6 +9,7 @@ use App\Entity\Creneau;
 use App\Entity\LigneCommande;
 use App\Entity\Magasin;
 use App\Entity\Produit;
+use App\Form\CommandeType;
 use App\Form\SelectionCreneauType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -161,10 +162,15 @@ class CommandeController extends AbstractController {
      */
     public function mesCommandes(){
         $em = $this->getDoctrine()->getManager();
-        $commandes = $em->getRepository(Commande::class)->findBy(['client' => $this->getUser()]);
+        $commandesEnCours = $em->getRepository(Commande::class)->findCommandeEnCours($this->getUser()->getId());
+        $commandesTerminer = $em->getRepository(Commande::class)->findCommandeTerminer($this->getUser());
+
+        //dd($commandesEnCours);
+        //dd($commandesTerminer);
 
         return $this->render('commande/listCommande.html.twig',[
-            'commandes' => $commandes,
+            'commandesEnCours' => $commandesEnCours,
+            'commandesTerminer' => $commandesTerminer,
         ]);
     }
 
@@ -195,6 +201,76 @@ class CommandeController extends AbstractController {
 
         return $this->render('commande/commande-creneau.html.twig',[
             'formCreneau' => $selectionCreneauForm->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/commande/gerer", name="commande_gerer")
+     *
+     */
+    public function gererCommande(){
+        $admin = false;
+        $user = $this->getUser();
+        if($user != null){
+            $roles = $user->getRoles();
+            foreach ($roles as $role){
+                if($role == "ROLE_ADMIN"){
+                    $admin = true;
+                    break;
+                }
+            }
+        }
+
+        if($admin == false){
+            return $this->redirectToRoute('magasin_list');
+        }
+
+        $em = $this->getDoctrine()->getManager();
+
+        $commandes = $em->getRepository(Commande::class)->findBy([],['etat' => 'ASC']);
+
+        return $this->render('commande/gerer-commande-list.html.twig',[
+            'commandes' => $commandes,
+        ]);
+    }
+
+    /**
+     * @Route("/commande/gerer/{id}", name="commande_gerer_etat")
+     *
+     */
+    public function gererEtatCommande(Request $request, Commande $commande){
+        $admin = false;
+        $user = $this->getUser();
+        if($user != null){
+            $roles = $user->getRoles();
+            foreach ($roles as $role){
+                if($role == "ROLE_ADMIN"){
+                    $admin = true;
+                    break;
+                }
+            }
+        }
+
+        if($admin == false){
+            return $this->redirectToRoute('magasin_list');
+        }
+
+        $em = $this->getDoctrine()->getManager();
+
+        $form = $this->createForm(CommandeType::class, $commande);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $commande->setEtat($form['etat']->getData());
+            $em->persist($commande);
+            $em->flush();
+            return $this->redirectToRoute('commande_gerer');
+        }
+
+        return $this->render('commande/gerer-commande.html.twig',[
+            'commande' => $commande,
+            'form' => $form->createView(),
         ]);
     }
 

@@ -18,7 +18,8 @@ class SelectionCreneauType extends AbstractType
     {
         $builder
             ->add('creneaux', ChoiceType::class, [
-                'label' => 'créneaux',
+                'label' => 'Créneaux disponibles',
+                'attr' => ['class' => 'form-control'],
                 'choices' => $options['creneaux']
             ])
         ;

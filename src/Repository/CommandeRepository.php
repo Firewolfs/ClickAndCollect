@@ -19,32 +19,26 @@ class CommandeRepository extends ServiceEntityRepository
         parent::__construct($registry, Commande::class);
     }
 
-    // /**
-    //  * @return Commande[] Returns an array of Commande objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
+    public function findCommandeEnCours($client){
+        $qb = $this->createQueryBuilder('c')
+            ->join('c.etat', 'e')
+            ->andWhere('e.id < 4')
+            ->andWhere('c.client = :clientId')
+            ->setParameter('clientId', $client)
+            ->orderBy('c.etat', 'DESC')
         ;
+        return $qb->getQuery()->getResult();
     }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Commande
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
+    public function findCommandeTerminer($client){
+        $qb = $this->createQueryBuilder('c')
+            ->leftJoin('c.etat', 'e')
+            ->andWhere('e.id > 3')
+            ->andWhere('c.client = :clientId')
+            ->setParameter('clientId', $client)
+            ->orderBy('c.etat', 'DESC')
+
         ;
+        return $qb->getQuery()->getResult();
     }
-    */
 }
