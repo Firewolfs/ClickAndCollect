@@ -36,7 +36,7 @@ class Creneau
      * @var Magasin
      *
      * @ORM\ManyToOne(targetEntity="Magasin", inversedBy="creneaux")
-     * @ORM\JoinColumn(name="id_magasin", referencedColumnName="id")
+     * @ORM\JoinColumn(name="id_magasin", referencedColumnName="id", onDelete="CASCADE")
      */
     private $magasin;
 

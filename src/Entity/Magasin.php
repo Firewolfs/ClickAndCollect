@@ -43,7 +43,7 @@ class Magasin
     /**
      * @var Creneau[]|ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="Creneau", mappedBy="magasin")
+     * @ORM\OneToMany(targetEntity="Creneau", mappedBy="magasin", cascade={"remove"})
      */
     private $creneaux;
 

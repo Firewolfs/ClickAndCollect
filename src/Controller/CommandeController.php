@@ -343,7 +343,7 @@ class CommandeController extends AbstractController {
         $message->setFrom('dev.lpmetinet@gmail.com')
             ->setTo($user->getEmail())
             ->setBody($this->renderView('commande/confirmation-email.html.twig', [
-                'commande' => $commande
+                'commandes' => $commandes
             ]), 'text/html');
 
         $mailer->send($message);

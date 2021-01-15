@@ -19,7 +19,7 @@
                             <p>En attente</p>
                         </div>
                         <div class="col">
-                            <button class="btn btn-danger">{{ commandeEnCours.etat.label }}</button>
+                            <button class="btn btn-warning" disabled>{{ commandeEnCours.etat.label }}</button>
                         </div>
                     {% elseif commandeEnCours.etat.id == 2%}
                         <div class="col">
@@ -31,7 +31,7 @@
                             <p>En attente</p>
                         </div>
                         <div class="col">
-                            <button class="btn btn-warning">{{ commandeEnCours.etat.label }}</button>
+                            <button class="btn btn-warning" disabled>{{ commandeEnCours.etat.label }}</button>
                         </div>
                     {% elseif commandeEnCours.etat.id == 3%}
                         <div class="col">
@@ -75,7 +75,7 @@
                             <p>{{ commandeTerminer.creneau }}</p>
                         </div>
                         <div class="col">
-                            <button class="btn btn-success">{{ commandeTerminer.etat.label }}</button>
+                            <button class="btn btn-success" disabled>{{ commandeTerminer.etat.label }}</button>
                         </div>
                     {% elseif commandeTerminer.etat.id == 5 %}
                         <div class="col">
@@ -87,7 +87,7 @@
                             <p>{{ commandeTerminer.creneau }}</p>
                         </div>
                         <div class="col">
-                            <button class="btn btn-danger">{{ commandeTerminer.etat.label }}</button>
+                            <button class="btn btn-danger" disabled>{{ commandeTerminer.etat.label }}</button>
                         </div>
                     {% endif %}
                 </div>

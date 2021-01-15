@@ -5,6 +5,8 @@
 
         {% if commande.etat.id == 1 %}
             {% set color = 'text-warning' %}
+        {% elseif commande.etat.id == 2 %}
+            {% set color = 'text-warning' %}
         {% elseif commande.etat.id == 3 %}
             {% set color = 'text-info' %}
         {% elseif commande.etat.id == 4 %}
