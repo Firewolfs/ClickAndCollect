@@ -9,6 +9,7 @@ use App\Entity\Creneau;
 use App\Entity\LigneCommande;
 use App\Entity\Magasin;
 use App\Entity\Produit;
+use App\Entity\Stocks;
 use App\Form\CommandeType;
 use App\Form\SelectionCreneauType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
@@ -90,17 +91,13 @@ class CommandeController extends AbstractController {
         }
 
         foreach ($panier as $idMagasin => $produits) {
+            $magasin = $em->getRepository(Magasin::class)->find($idMagasin);
             $commande = new Commande();
             $prixTot = 0;
 
             $commande->setClient($user);
-            $commande->setMagasin($em->getRepository(Magasin::class)->find($idMagasin));
-
-            $magasin = $em->getRepository(Magasin::class)->find($idMagasin);
-//            foreach ($magasin->getCreneaux() as $creneau){
-//                $creneauForm[$creneau->getDate()->format('H:i:s')] = $creneau->getId() ;
-//            }
-//            $selectionCreneauForm = $this->createForm(SelectionCreneauType::class, null, ['creneaux' => $creneauForm]);
+            $commande->setMagasin($magasin);
+            $commande->setEtat($em->getRepository(CommandeStatut::class)->find(6));
 
             foreach ($produits as $idProduit => $quantity) {
                 $ligneCommande = new LigneCommande();
@@ -148,7 +145,7 @@ class CommandeController extends AbstractController {
         }
 
         /** @var Commande[] $commandes */
-        $commandes = $em->getRepository(Commande::class)->findBy(['client' => $user, 'etat' => null]);
+        $commandes = $em->getRepository(Commande::class)->findBy(['client' => $user, 'etat' => 6]);
 
         return $this->render('commande/detail.html.twig', [
             'commandes' => $commandes,
@@ -312,9 +309,15 @@ class CommandeController extends AbstractController {
         $user = $this->getUser();
 
         /** @var Commande[] $commandes */
-        $commandes = $em->getRepository(Commande::class)->findBy(['client' => $user, 'etat' => null]);
+        $commandes = $em->getRepository(Commande::class)->findBy(['client' => $user, 'etat' => 6]);
 
         foreach ($commandes as $commande) {
+            foreach ($commande->getCommandeLignes() as $ligne) {
+                $stock = $em->getRepository(Stocks::class)->findOneBy(['produit' => $ligne->getProduit(), 'magasin' => $commande->getMagasin()]);
+                $stock->setQuantity($stock->getQuantity() - $ligne->getQuantity());
+                $em->persist($stock);
+            }
+
             $commande->setEtat($em->getRepository(CommandeStatut::class)->find(1));
             $em->persist($commande);
         }

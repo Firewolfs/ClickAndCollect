@@ -2,6 +2,19 @@
 {% block body %}
     <h2>Gérer les commandes :</h2>
     {% for commande in commandes %}
+
+        {% if commande.etat.id == 1 %}
+            {% set color = 'text-warning' %}
+        {% elseif commande.etat.id == 3 %}
+            {% set color = 'text-info' %}
+        {% elseif commande.etat.id == 4 %}
+            {% set color = 'text-succes' %}
+        {% elseif commande.etat.id == 5 %}
+            {% set color = 'text-danger' %}
+        {% elseif commande.etat.id == 6 %}
+            {% set color = 'text-secondary' %}
+        {% endif %}
+
         <div class="card mt-5">
             <div class="card-body">
                 <div class="card-title">
@@ -19,7 +32,7 @@
                     </div>
                     <div class="col">
                         <h5 class="">Etat</h5>
-                        <p>{{ commande.etat.label }}</p>
+                        <p class="{{ color }}">{{ commande.etat.label }}</p>
                     </div>
                     <div class="col">
                         <a href="{{ path('commande_gerer_etat', {id: commande.id}) }}"><button class="btn btn-primary">Changer etat</button></a>
