@@ -16,10 +16,10 @@
                         </div>
                         <div class="col">
                             <h5>Horraire</h5>
-                            <p>{{ commandeEnCours.creneau }}</p>
+                            <p>En attente</p>
                         </div>
                         <div class="col">
-                            <button class="btn btn-success">{{ commandeEnCours.etat.label }}</button>
+                            <button class="btn btn-danger">{{ commandeEnCours.etat.label }}</button>
                         </div>
                     {% elseif commandeEnCours.etat.id == 2%}
                         <div class="col">
@@ -31,7 +31,7 @@
                             <p>En attente</p>
                         </div>
                         <div class="col">
-                            <button class="btn btn-danger">{{ commandeEnCours.etat.label }}</button>
+                            <button class="btn btn-warning">{{ commandeEnCours.etat.label }}</button>
                         </div>
                     {% elseif commandeEnCours.etat.id == 3%}
                         <div class="col">
@@ -40,7 +40,11 @@
                         </div>
                         <div class="col">
                             <h5>Horraire</h5>
-                            <p>Choisir créneau</p>
+                            {% if commandeEnCours.creneau is null %}
+                                <p>Choisir créneau</p>
+                            {% else %}
+                                <p>{{ commandeEnCours.creneau.date|date }}</p>
+                            {% endif %}
                         </div>
                         <div class="col">
                             <a href="{{ path('commande_creneau', {id: commandeEnCours.id}) }}"><button class="btn btn-primary">{{ commandeEnCours.etat.label }}</button></a>
