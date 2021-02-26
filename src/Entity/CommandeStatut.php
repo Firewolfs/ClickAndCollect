@@ -2,12 +2,21 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\CommandeStatutRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=CommandeStatutRepository::class)
+ * @ApiResource(
+ *     normalizationContext={"list"},
+ *     itemOperations={
+ *          "get" = { "security" = "is_granted('ROLE_USER')" },
+ *          "put" = { "security" = "is_granted('ROLE_ADMIN')" },
+ *          "delete" = { "security" = "is_granted('ROLE_ADMIN')" }
+ *     },
+ * )
  */
 class CommandeStatut
 {
@@ -57,9 +66,8 @@ class CommandeStatut
     }
 
     /**
-     * @return ArrayCollection
      */
-    public function getCommandes(): ArrayCollection
+    public function getCommandes()
     {
         return $this->commandes;
     }

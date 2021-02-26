@@ -2,11 +2,23 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\StocksRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=StocksRepository::class)
+ * @ApiResource(
+ *     normalizationContext={"list"},
+ *     collectionOperations={
+ *         "post"={"method"="POST", "access_control"="is_granted('ROLE_ADMIN')"}
+ *     },
+ *     itemOperations={
+ *          "get" = { "security" = "is_granted('ROLE_USER')" },
+ *          "put" = { "security" = "is_granted('ROLE_ADMIN')" },
+ *          "delete" = { "security" = "is_granted('ROLE_ADMIN')" }
+ *     },
+ * )
  */
 class Stocks
 {

@@ -2,11 +2,15 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\VendeurRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=VendeurRepository::class)
+ * @ApiResource(
+ *     normalizationContext={"list"}
+ * )
  */
 class Vendeur
 {

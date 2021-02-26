@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\CommandeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -9,6 +10,17 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=CommandeRepository::class)
+ * @ApiResource(
+ *     normalizationContext={"list"},
+ *     collectionOperations={
+ *         "post"={"method"="POST", "access_control"="is_granted('ROLE_USER')"}
+ *     },
+ *     itemOperations={
+ *          "get" = { "security" = "is_granted('ROLE_USER')" },
+ *          "put" = { "security" = "is_granted('ROLE_ADMIN')" },
+ *          "delete" = { "security" = "is_granted('ROLE_ADMIN')" }
+ *     },
+ * )
  */
 class Commande
 {

@@ -2,11 +2,23 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\LigneCommandeRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=LigneCommandeRepository::class)
+ * @ApiResource(
+ *     normalizationContext={"list"},
+ *     collectionOperations={
+ *         "post"={"method"="POST", "access_control"="is_granted('ROLE_ADMIN')"}
+ *     },
+ *     itemOperations={
+ *          "get" = { "security" = "is_granted('ROLE_USER')" },
+ *          "put" = { "security" = "is_granted('ROLE_ADMIN')" },
+ *          "delete" = { "security" = "is_granted('ROLE_ADMIN')" }
+ *     },
+ * )
  */
 class LigneCommande
 {
