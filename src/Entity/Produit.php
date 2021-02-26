@@ -13,10 +13,11 @@ use Doctrine\ORM\Mapping as ORM;
  * @ApiResource(
  *     normalizationContext={"list"},
  *     collectionOperations={
+ *         "get" = { "security" = "is_granted('IS_AUTHENTICATED_ANONYMOUSLY')" },
  *         "post"={"method"="POST", "access_control"="is_granted('ROLE_ADMIN')"}
  *     },
  *     itemOperations={
- *          "get" = { "security" = "is_granted('ROLE_USER')" },
+ *          "get" = { "security" = "is_granted('IS_AUTHENTICATED_ANONYMOUSLY')" },
  *          "put" = { "security" = "is_granted('ROLE_ADMIN')" },
  *          "delete" = { "security" = "is_granted('ROLE_ADMIN')" }
  *     },
