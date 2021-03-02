@@ -1,0 +1,21 @@
+api_platform:
+    # The title of the API.
+    title: 'Metalyfer API'
+    # The description of the API.
+    description: 'API de l outils metalyfer'
+    # The version of the API.
+    version: '1.0.0'
+
+    mapping:
+        paths: ['%kernel.project_dir%/src/Entity']
+    patch_formats:
+        json: ['application/merge-patch+json']
+        jsonld: ['application/ld+json']
+    swagger:
+        versions: [3]
+    eager_loading:
+        max_joins: 100
+    collection:
+        pagination:
+            enabled: true
+            items_per_page: 30 # Default value
