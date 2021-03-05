@@ -13,6 +13,10 @@ api_platform:
         jsonld: ['application/ld+json']
     swagger:
         versions: [3]
+        api_keys:
+            apiKey:
+                name: Authorization
+                type: header
     eager_loading:
         max_joins: 100
     collection:
