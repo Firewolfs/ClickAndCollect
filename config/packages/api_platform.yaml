@@ -1,8 +1,8 @@
 api_platform:
     # The title of the API.
-    title: 'Metalyfer API'
+    title: 'API ClickAndCollect'
     # The description of the API.
-    description: 'API de l outils metalyfer'
+    description: 'API du TP ClickAndCollect Symfony'
     # The version of the API.
     version: '1.0.0'
 
