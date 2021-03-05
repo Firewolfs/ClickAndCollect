@@ -2,6 +2,12 @@
 Site Click &amp; Collect Symfony LP METINET  
 Groupe : OVEJERO Daniel - LEGUILLIER Christopher
 
+## API
+Après avoir installer le projet, pour accéder à la documentation de l'API aller sur la route
+```
+<domaine>/api
+```
+
 ## Initialisation du projet
 Installer les bundles
 ```
